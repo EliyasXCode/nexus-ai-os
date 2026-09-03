@@ -54,12 +54,16 @@ app.use(
   })
 );
 
+// Trust proxy for Vercel / reverse proxies
+app.set('trust proxy', 1);
+
 // Rate limiting
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
   max: 300, // limit each IP to 300 requests per windowMs
   standardHeaders: true,
   legacyHeaders: false,
+  validate: { trustProxy: false },
   message: {
     success: false,
     message: 'Too many requests from this IP. Please wait a few minutes before trying again.',
@@ -75,7 +79,7 @@ app.use(express.json({ limit: '15mb' }));
 app.use(express.urlencoded({ extended: true, limit: '15mb' }));
 
 // Health check endpoint
-app.get('/api/health', (req, res) => {
+app.get(['/api/health', '/health'], (req, res) => {
   res.status(200).json({
     status: 'online',
     system: 'NEXUS AI OS Backend',
@@ -92,14 +96,14 @@ app.use(async (req, res, next) => {
   next();
 });
 
-// Mount Routes
-app.use('/api/auth', authRoutes);
-app.use('/api/chat', chatRoutes);
-app.use('/api/conversations', conversationRoutes);
-app.use('/api/tasks', taskRoutes);
-app.use('/api/notes', noteRoutes);
-app.use('/api/memory', memoryRoutes);
-app.use('/api/agents', agentRoutes);
+// Mount Routes (supports both /api/auth and rewritten /auth)
+app.use(['/api/auth', '/auth'], authRoutes);
+app.use(['/api/chat', '/chat'], chatRoutes);
+app.use(['/api/conversations', '/conversations'], conversationRoutes);
+app.use(['/api/tasks', '/tasks'], taskRoutes);
+app.use(['/api/notes', '/notes'], noteRoutes);
+app.use(['/api/memory', '/memory'], memoryRoutes);
+app.use(['/api/agents', '/agents'], agentRoutes);
 
 // Error Handling Middlewares
 app.use(notFoundHandler);
