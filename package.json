@@ -1,0 +1,22 @@
+{
+  "name": "nexus-ai-os",
+  "version": "1.0.0",
+  "description": "NEXUS AI OS — Web-Based Autonomous AI Agent Operating System",
+  "scripts": {
+    "install-all": "npm install --prefix server && npm install --prefix client",
+    "server": "npm run dev --prefix server",
+    "client": "npm run dev --prefix client"
+  },
+  "keywords": [
+    "mern",
+    "gemini",
+    "ai-agent",
+    "tool-calling",
+    "multi-agent",
+    "react",
+    "vite",
+    "tailwindcss"
+  ],
+  "author": "Eliyas Mulla",
+  "license": "MIT"
+}
