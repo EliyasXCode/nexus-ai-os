@@ -92,8 +92,20 @@ app.get(['/api/health', '/health'], (req, res) => {
 
 // Ensure DB connection for serverless cold starts
 app.use(async (req, res, next) => {
-  await connectDB();
-  next();
+  // Skip DB for health check
+  if (req.path === '/api/health' || req.path === '/health') {
+    return next();
+  }
+
+  try {
+    await connectDB();
+    next();
+  } catch (err) {
+    return res.status(503).json({
+      success: false,
+      message: `Database connection failed: ${err.message}. Please check MongoDB Atlas Network Access (whitelist 0.0.0.0/0) and MONGO_URI in Vercel Environment Variables.`,
+    });
+  }
 });
 
 // Mount Routes (supports both /api/auth and rewritten /auth)
