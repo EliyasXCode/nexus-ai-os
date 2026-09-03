@@ -1,6 +1,12 @@
 import mongoose from 'mongoose';
 
+let isConnected = false;
+
 export const connectDB = async () => {
+  if (isConnected || mongoose.connection.readyState >= 1) {
+    return;
+  }
+
   try {
     const mongoUri = process.env.MONGO_URI;
     if (!mongoUri) {
@@ -11,9 +17,9 @@ export const connectDB = async () => {
       dbName: 'nexus_ai_os',
     });
 
+    isConnected = true;
     console.log(`[Database] MongoDB Connected: ${conn.connection.host} (DB: nexus_ai_os)`);
   } catch (error) {
     console.error(`[Database Error] Connection failed: ${error.message}`);
-    // Do not crash server in dev so APIs can return friendly errors
   }
 };

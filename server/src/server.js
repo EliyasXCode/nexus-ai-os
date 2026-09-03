@@ -86,6 +86,12 @@ app.get('/api/health', (req, res) => {
   });
 });
 
+// Ensure DB connection for serverless cold starts
+app.use(async (req, res, next) => {
+  await connectDB();
+  next();
+});
+
 // Mount Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/chat', chatRoutes);
@@ -99,12 +105,16 @@ app.use('/api/agents', agentRoutes);
 app.use(notFoundHandler);
 app.use(errorHandler);
 
-// Start server
-app.listen(PORT, () => {
-  console.log(`=========================================`);
-  console.log(`  🚀 NEXUS AI OS Core Server Running     `);
-  console.log(`  🌐 Port: http://localhost:${PORT}      `);
-  console.log(`  🤖 AI Model: ${process.env.GEMINI_MODEL || 'gemini-3.5-flash'}`);
-  console.log(`  ⚡ Environment: ${process.env.NODE_ENV || 'development'}`);
-  console.log(`=========================================`);
-});
+// Start standalone server when not in Vercel serverless environment
+if (!process.env.VERCEL) {
+  app.listen(PORT, () => {
+    console.log(`=========================================`);
+    console.log(`  🚀 NEXUS AI OS Core Server Running     `);
+    console.log(`  🌐 Port: http://localhost:${PORT}      `);
+    console.log(`  🤖 AI Model: ${process.env.GEMINI_MODEL || 'gemini-3.5-flash'}`);
+    console.log(`  ⚡ Environment: ${process.env.NODE_ENV || 'development'}`);
+    console.log(`=========================================`);
+  });
+}
+
+export default app;
