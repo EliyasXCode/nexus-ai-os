@@ -105,8 +105,10 @@ app.use('/api/agents', agentRoutes);
 app.use(notFoundHandler);
 app.use(errorHandler);
 
-// Start standalone server when not in Vercel serverless environment
-if (!process.env.VERCEL) {
+// Start standalone server only when run directly (not when imported as a serverless module)
+const isDirectRun = process.argv[1] && (process.argv[1].endsWith('server.js') || process.argv[1].includes('server.js'));
+
+if (isDirectRun && !process.env.VERCEL) {
   app.listen(PORT, () => {
     console.log(`=========================================`);
     console.log(`  🚀 NEXUS AI OS Core Server Running     `);
