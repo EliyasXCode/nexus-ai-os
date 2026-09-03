@@ -1,9 +1,12 @@
 # 🌌 NEXUS AI OS — Web-Based AI Agent Operating System
 
-[![Stack](https://img.shields.io/badge/Stack-MERN%20%2B%20Gemini%20API-38bdf8)](https://github.com/)
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-nexus--ai--os-blue?style=for-the-badge&logo=vercel)](https://nexus-ai-os-r1v2.vercel.app)
+[![Stack](https://img.shields.io/badge/Stack-MERN%20%2B%20Gemini%20API-38bdf8)](https://github.com/EliyasXCode/nexus-ai-os)
 [![License](https://img.shields.io/badge/License-MIT-emerald)](https://opensource.org/licenses/MIT)
 [![Node](https://img.shields.io/badge/Node.js-%3E%3D18.0.0-green)](https://nodejs.org)
 [![Vite](https://img.shields.io/badge/Vite-6.x-purple)](https://vitejs.dev/)
+
+> 🚀 **Live Demo:** [https://nexus-ai-os-r1v2.vercel.app](https://nexus-ai-os-r1v2.vercel.app)
 
 **NEXUS AI OS** is an intelligent, browser-based agent operating system built on the **MERN stack** (MongoDB Atlas, Express.js, React, Node.js) and powered by the official **Google Gemini Developer API** (`@google/genai`).
 
